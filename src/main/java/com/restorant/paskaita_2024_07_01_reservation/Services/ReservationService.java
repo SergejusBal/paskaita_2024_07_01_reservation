@@ -1,0 +1,51 @@
+package com.restorant.paskaita_2024_07_01_reservation.Services;
+
+import com.restorant.paskaita_2024_07_01_reservation.DataBaseReposiroty.ReservationRepository;
+import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Reservation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+
+@Service
+public class ReservationService {
+    private final ReservationRepository reservationRepository;
+    @Autowired
+    public ReservationService(ReservationRepository reservationRepository){
+        this.reservationRepository = reservationRepository;
+    }
+
+    public String createReservation(Reservation reservation) {
+
+        if( reservation.getClientID() == 0 || reservation.getReservationDate() == null || reservation.getNumberOfPeople() == 0)  return "Invalid Input";
+
+        return reservationRepository.createReservation(reservation);
+    }
+
+    public String getAllReservation(String date) {
+       if (date == null)  return reservationRepository.getAllReservation();
+       else return reservationRepository.getReservationAtDate(date);
+    }
+    public String getAllReservationByClientID(Integer clientId) {
+        return reservationRepository.getAllReservationByClientID(clientId);
+    }
+    public String getAllConfirmedReservation(){
+        return reservationRepository.getAllReservationWithStatus("confirmed");
+    }
+
+    public String getAllCanceledReservation(){
+        return reservationRepository.getAllReservationWithStatus("canceled");
+    }
+
+    public String confirmReservation(Integer reservationId){
+        return reservationRepository.changeReservationStatus(reservationId, "confirmed");
+    }
+
+    public String cancelReservation(Integer reservationId){
+        return reservationRepository.changeReservationStatus(reservationId,"canceled");
+    }
+
+
+
+
+
+}
