@@ -5,6 +5,8 @@ import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Client;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class ClientService {
     private final ClientRepository clientRepository;
@@ -20,7 +22,7 @@ public class ClientService {
         return clientRepository.createClient(client);
     }
 
-    public String getAllClients() {
+    public List<Client> getAllClients() {
         return clientRepository.getAllClients();
     }
 }

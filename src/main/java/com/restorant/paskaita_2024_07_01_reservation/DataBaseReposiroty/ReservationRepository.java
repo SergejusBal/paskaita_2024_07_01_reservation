@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class ReservationRepository {
@@ -42,18 +44,18 @@ public class ReservationRepository {
         }
         return "Reservation was successfully added";
     }
-    public String getAllReservation() {
+    public List<Reservation> getAllReservation() {
         String sql = "SELECT * FROM reservation_database.reservations;";
-        StringBuilder stringbuilder = new StringBuilder();
+        List<Reservation> reservationList = new ArrayList<>();
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet =  preparedStatement.executeQuery();
 
-            Reservation reservation = new Reservation();
-            while (resultSet.next()){
 
+            while (resultSet.next()){
+                Reservation reservation = new Reservation();
                 reservation.setReservationID(resultSet.getInt("reservation_id"));
                 reservation.setClientID(resultSet.getInt("client_id"));
                 reservation.setNumberOfPeople(resultSet.getInt("number_of_people"));
@@ -62,18 +64,18 @@ public class ReservationRepository {
                 LocalDateTime localDateTime = formatDateTime(resultSet.getString("reservation_date"));
                 reservation.setReservationDate(localDateTime);
 
-                stringbuilder.append(reservation);
+                reservationList.add(reservation);
             }
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return stringbuilder.toString();
+        return reservationList;
     }
 
-    public String getAllReservationByClientID(Integer clientId) {
+    public List<Reservation> getAllReservationByClientID(Integer clientId) {
         String sql = "SELECT * FROM reservation_database.reservations WHERE client_id = ?;";
-        StringBuilder stringbuilder = new StringBuilder();
+        List<Reservation> reservationList= new ArrayList<>();
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
@@ -81,9 +83,9 @@ public class ReservationRepository {
             preparedStatement.setInt(1,clientId);
             ResultSet resultSet =  preparedStatement.executeQuery();
 
-            Reservation reservation = new Reservation();
-            while (resultSet.next()){
 
+            while (resultSet.next()){
+                Reservation reservation = new Reservation();
                 reservation.setReservationID(resultSet.getInt("reservation_id"));
                 reservation.setClientID(resultSet.getInt("client_id"));
                 reservation.setNumberOfPeople(resultSet.getInt("number_of_people"));
@@ -92,19 +94,19 @@ public class ReservationRepository {
                 LocalDateTime localDateTime = formatDateTime(resultSet.getString("reservation_date"));
                 reservation.setReservationDate(localDateTime);
 
-                stringbuilder.append(reservation);
+                reservationList.add(reservation);
             }
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return stringbuilder.toString();
+        return reservationList;
 
     }
 
-    public String getAllReservationWithStatus(String status){
+    public List<Reservation>  getAllReservationWithStatus(String status){
         String sql = "SELECT * FROM reservation_database.reservations WHERE status = ?;";
-        StringBuilder stringbuilder = new StringBuilder();
+        List<Reservation> reservationList = new ArrayList<>();
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
@@ -112,9 +114,9 @@ public class ReservationRepository {
             preparedStatement.setString(1,status);
             ResultSet resultSet =  preparedStatement.executeQuery();
 
-            Reservation reservation = new Reservation();
-            while (resultSet.next()){
 
+            while (resultSet.next()){
+                Reservation reservation = new Reservation();
                 reservation.setReservationID(resultSet.getInt("reservation_id"));
                 reservation.setClientID(resultSet.getInt("client_id"));
                 reservation.setNumberOfPeople(resultSet.getInt("number_of_people"));
@@ -123,13 +125,13 @@ public class ReservationRepository {
                 LocalDateTime localDateTime = formatDateTime(resultSet.getString("reservation_date"));
                 reservation.setReservationDate(localDateTime);
 
-                stringbuilder.append(reservation);
+                reservationList.add(reservation);
             }
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return stringbuilder.toString();
+        return reservationList;
 
     }
 
@@ -152,10 +154,9 @@ public class ReservationRepository {
 
     }
 
-
-    public String getReservationAtDate(String date){
+    public List<Reservation> getReservationAtDate(String date){
         String sql = "SELECT * FROM reservation_database.reservations WHERE DATE(reservation_date) = ?;";
-        StringBuilder stringbuilder = new StringBuilder();
+        List<Reservation> reservationList = new ArrayList<>();
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
@@ -174,13 +175,14 @@ public class ReservationRepository {
                 LocalDateTime localDateTime = formatDateTime(resultSet.getString("reservation_date"));
                 reservation.setReservationDate(localDateTime);
 
-                stringbuilder.append(reservation);
+                reservationList.add(reservation);
+
             }
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
-        return stringbuilder.toString();
+        return reservationList;
 
     }
 

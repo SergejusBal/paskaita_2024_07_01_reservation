@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 public class ReservationController {
@@ -23,22 +24,22 @@ public class ReservationController {
         return reservationService.createReservation(reservation);
     }
     @GetMapping("/reservations")
-    public String getAllReservation(@RequestParam(required = false) String date) {
+    public List<Reservation> getAllReservation(@RequestParam(required = false) String date) {
         return reservationService.getAllReservation(date);
     }
 
     @GetMapping("/reservations/client/{clientId}")
-    public String getAllReservationByClientID(@PathVariable Integer clientId){
+    public List<Reservation> getAllReservationByClientID(@PathVariable Integer clientId){
         return reservationService.getAllReservationByClientID(clientId);
     }
 
     @GetMapping("/reservations/confirmed")
-    public String getAllConfirmedReservation(){
+    public List<Reservation>  getAllConfirmedReservation(){
         return reservationService.getAllConfirmedReservation();
     }
 
     @GetMapping("/reservations/canceled")
-    public String getAllCanceledReservation(){
+    public List<Reservation>  getAllCanceledReservation(){
         return reservationService.getAllCanceledReservation();
     }
 
@@ -52,12 +53,6 @@ public class ReservationController {
     public String cancelReservation(@PathVariable Integer reservationId){
         return reservationService.cancelReservation(reservationId);
     }
-
-
-
-
-
-
 
 
 

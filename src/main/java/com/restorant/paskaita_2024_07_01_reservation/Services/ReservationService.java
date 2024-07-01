@@ -1,9 +1,12 @@
 package com.restorant.paskaita_2024_07_01_reservation.Services;
 
 import com.restorant.paskaita_2024_07_01_reservation.DataBaseReposiroty.ReservationRepository;
+import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Client;
 import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Reservation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Service
@@ -21,18 +24,18 @@ public class ReservationService {
         return reservationRepository.createReservation(reservation);
     }
 
-    public String getAllReservation(String date) {
+    public List<Reservation> getAllReservation(String date) {
        if (date == null)  return reservationRepository.getAllReservation();
        else return reservationRepository.getReservationAtDate(date);
     }
-    public String getAllReservationByClientID(Integer clientId) {
+    public List<Reservation> getAllReservationByClientID(Integer clientId) {
         return reservationRepository.getAllReservationByClientID(clientId);
     }
-    public String getAllConfirmedReservation(){
+    public List<Reservation>  getAllConfirmedReservation(){
         return reservationRepository.getAllReservationWithStatus("confirmed");
     }
 
-    public String getAllCanceledReservation(){
+    public List<Reservation>  getAllCanceledReservation(){
         return reservationRepository.getAllReservationWithStatus("canceled");
     }
 
@@ -43,9 +46,6 @@ public class ReservationService {
     public String cancelReservation(Integer reservationId){
         return reservationRepository.changeReservationStatus(reservationId,"canceled");
     }
-
-
-
 
 
 }

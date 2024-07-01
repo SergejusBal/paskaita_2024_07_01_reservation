@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class ClientRepository {
@@ -38,30 +40,31 @@ public class ClientRepository {
 
     }
 
-    public String getAllClients() {
+    public List<Client> getAllClients() {
         String sql = "SELECT * FROM reservation_database.clients;";
-        StringBuilder stringbuilder = new StringBuilder();
+        List<Client> clientList = new ArrayList<>();
 
         try {
             Connection connection = DriverManager.getConnection(url, username, password);
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             ResultSet resultSet =  preparedStatement.executeQuery();
 
-            Client client = new Client();
+
             while (resultSet.next()){
+                Client client = new Client();
                 client.setClientID(resultSet.getInt("client_id"));
                 client.setName(resultSet.getString("name"));
                 client.setEmail(resultSet.getString("email"));
                 client.setPhone(resultSet.getString("phone"));
 
-                stringbuilder.append(client);
+                clientList.add(client);
             }
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
-        return stringbuilder.toString();
+        return clientList;
     }
 
 }

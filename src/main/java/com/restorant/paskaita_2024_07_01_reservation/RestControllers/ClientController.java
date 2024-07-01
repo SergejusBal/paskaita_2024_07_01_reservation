@@ -5,6 +5,8 @@ import com.restorant.paskaita_2024_07_01_reservation.Services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 public class ClientController {
 
@@ -19,7 +21,7 @@ public class ClientController {
         return clientService.createClient(client);
     }
     @GetMapping("/clients")
-    public String getAllClients() {
+    public List<Client> getAllClients() {
         return clientService.getAllClients();
     }
 
