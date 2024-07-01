@@ -1,6 +1,5 @@
 package com.restorant.paskaita_2024_07_01_reservation.DataBaseReposiroty;
 
-import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Client;
 import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Reservation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -73,7 +72,7 @@ public class ReservationRepository {
         return reservationList;
     }
 
-    public List<Reservation> getAllReservationByClientID(Integer clientId) {
+    public List<Reservation> getAllReservationByClientID(int clientId) {
         String sql = "SELECT * FROM reservation_database.reservations WHERE client_id = ?;";
         List<Reservation> reservationList= new ArrayList<>();
 
@@ -135,7 +134,7 @@ public class ReservationRepository {
 
     }
 
-    public String changeReservationStatus(Integer reservationId, String status){
+    public String changeReservationStatus(int reservationId, String status){
 
         String sql = "UPDATE reservation_database.reservations SET status = ? WHERE reservation_id = ?";
 

@@ -28,7 +28,7 @@ public class ReservationService {
        if (date == null)  return reservationRepository.getAllReservation();
        else return reservationRepository.getReservationAtDate(date);
     }
-    public List<Reservation> getAllReservationByClientID(Integer clientId) {
+    public List<Reservation> getAllReservationByClientID(int clientId) {
         return reservationRepository.getAllReservationByClientID(clientId);
     }
     public List<Reservation>  getAllConfirmedReservation(){
@@ -39,11 +39,11 @@ public class ReservationService {
         return reservationRepository.getAllReservationWithStatus("canceled");
     }
 
-    public String confirmReservation(Integer reservationId){
+    public String confirmReservation(int reservationId){
         return reservationRepository.changeReservationStatus(reservationId, "confirmed");
     }
 
-    public String cancelReservation(Integer reservationId){
+    public String cancelReservation(int reservationId){
         return reservationRepository.changeReservationStatus(reservationId,"canceled");
     }
 

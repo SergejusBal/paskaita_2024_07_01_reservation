@@ -1,12 +1,12 @@
 package com.restorant.paskaita_2024_07_01_reservation.RestControllers;
 
-import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Client;
+
 import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Reservation;
 import com.restorant.paskaita_2024_07_01_reservation.Services.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
+
 import java.util.List;
 
 @RestController
@@ -29,7 +29,7 @@ public class ReservationController {
     }
 
     @GetMapping("/reservations/client/{clientId}")
-    public List<Reservation> getAllReservationByClientID(@PathVariable Integer clientId){
+    public List<Reservation> getAllReservationByClientID(@PathVariable int clientId){
         return reservationService.getAllReservationByClientID(clientId);
     }
 
@@ -44,13 +44,13 @@ public class ReservationController {
     }
 
     @PatchMapping("/reservations/confirm/{reservationId}")
-    public String confirmReservation(@PathVariable Integer reservationId) {
+    public String confirmReservation(@PathVariable int reservationId) {
         return reservationService.confirmReservation(reservationId);
     }
 
 
     @DeleteMapping("/reservations/{reservationId}")
-    public String cancelReservation(@PathVariable Integer reservationId){
+    public String cancelReservation(@PathVariable int reservationId){
         return reservationService.cancelReservation(reservationId);
     }
 
