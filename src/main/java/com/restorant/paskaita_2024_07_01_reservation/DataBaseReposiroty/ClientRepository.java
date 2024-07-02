@@ -1,10 +1,12 @@
 package com.restorant.paskaita_2024_07_01_reservation.DataBaseReposiroty;
 
 import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Client;
+import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Reservation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import java.sql.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,9 @@ public class ClientRepository {
             preparedStatement.setString(3,client.getPhone());
 
             preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            connection.close();
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -59,11 +64,68 @@ public class ClientRepository {
                 clientList.add(client);
             }
 
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
 
         return clientList;
+    }
+
+    public String editClientInformation(int client_id,Client client){
+        String sql = "UPDATE reservation_database.clients SET name = ?, email = ?, phone = ? WHERE client_id = ?";
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setString(1,client.getName());
+            preparedStatement.setString(2,client.getEmail());
+            preparedStatement.setString(3,client.getPhone());
+            preparedStatement.setInt(4,client_id);
+            preparedStatement.executeUpdate();
+
+
+            preparedStatement.close();
+            connection.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return "Client was edited successfully";
+    }
+
+    public Client getClientByID(int clientID){
+        String sql = "SELECT * FROM reservation_database.clients WHERE client_id = ?;";
+        Client client;
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,clientID);
+            ResultSet resultSet =  preparedStatement.executeQuery();
+
+            client = new Client();
+            resultSet.next();
+
+            client.setClientID(resultSet.getInt("client_id"));
+            client.setName(resultSet.getString("name"));
+            client.setEmail(resultSet.getString("email"));
+            client.setPhone(resultSet.getString("phone"));
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return client;
+
     }
 
 }

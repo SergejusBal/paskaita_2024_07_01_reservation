@@ -16,21 +16,27 @@ public class ClientController {
         this.clientService = clientService;
     }
 
-    @PostMapping("/clients")
-    public String createClients(@RequestBody Client client) {
-        return clientService.createClient(client);
-    }
+
     @GetMapping("/clients")
     public List<Client> getAllClients() {
         return clientService.getAllClients();
     }
 
-    //PUT /clients/{id} - Atnaujinti esamo kliento informaciją pagal kliento ID.
 
-//    @PutMapping("/clients/{id}")
-//    public String editClientInformation(@PathVariable Integer ){
-//        return clientService.editClientInformation();
-//    }
+    @GetMapping("/clients/{id}")
+    public Client getClientByID(@PathVariable int id){
+        return clientService.getClientByID(id);
+    }
+
+    @PostMapping("/clients")
+    public String createClients(@RequestBody Client client) {
+        return clientService.createClient(client);
+    }
+
+     @PutMapping("/clients/{id}")
+    public String editClientInformation(@PathVariable int id,@RequestBody Client client){
+        return clientService.editClientInformation(id,client);
+    }
 
 
 }

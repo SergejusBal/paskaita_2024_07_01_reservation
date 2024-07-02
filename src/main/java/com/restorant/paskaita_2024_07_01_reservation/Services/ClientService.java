@@ -25,4 +25,15 @@ public class ClientService {
     public List<Client> getAllClients() {
         return clientRepository.getAllClients();
     }
+
+    public Client getClientByID(int clientID){
+        return clientRepository.getClientByID(clientID);
+    }
+
+    public String editClientInformation(int client_id,Client client){
+
+        if( client.getName() == null || client.getEmail() == null || client.getPhone() == null || client_id == 0)  return "Invalid Input";
+
+        return clientRepository.editClientInformation(client_id,client);
+    }
 }

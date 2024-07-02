@@ -1,5 +1,6 @@
 package com.restorant.paskaita_2024_07_01_reservation.DataBaseReposiroty;
 
+import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Client;
 import com.restorant.paskaita_2024_07_01_reservation.DataClasses.Reservation;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
@@ -66,11 +67,48 @@ public class ReservationRepository {
                 reservationList.add(reservation);
             }
 
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return reservationList;
     }
+
+    public Reservation getReservationByID(int reservationID){
+        String sql = "SELECT * FROM reservation_database.reservations WHERE reservation_id = ?;";
+        Reservation reservation;
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1,reservationID);
+            ResultSet resultSet =  preparedStatement.executeQuery();
+
+            reservation = new Reservation();
+            resultSet.next();
+
+            reservation.setReservationID(resultSet.getInt("reservation_id"));
+            reservation.setClientID(resultSet.getInt("client_id"));
+            reservation.setNumberOfPeople(resultSet.getInt("number_of_people"));
+            reservation.setStatus(resultSet.getString("status"));
+
+            LocalDateTime localDateTime = formatDateTime(resultSet.getString("reservation_date"));
+            reservation.setReservationDate(localDateTime);
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return reservation;
+
+    }
+
 
     public List<Reservation> getAllReservationByClientID(int clientId) {
         String sql = "SELECT * FROM reservation_database.reservations WHERE client_id = ?;";
@@ -95,6 +133,10 @@ public class ReservationRepository {
 
                 reservationList.add(reservation);
             }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -127,6 +169,10 @@ public class ReservationRepository {
                 reservationList.add(reservation);
             }
 
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -145,6 +191,9 @@ public class ReservationRepository {
             preparedStatement.setString(1,status);
             preparedStatement.setInt(2,reservationId);
             preparedStatement.executeUpdate();
+
+            preparedStatement.close();
+            connection.close();
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -178,11 +227,40 @@ public class ReservationRepository {
 
             }
 
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return reservationList;
 
+    }
+
+    public String editReservationInformation(int reservationID,Reservation reservation){
+        String sql = "UPDATE reservation_database.reservations SET client_id = ?, reservation_date = ?, number_of_people = ?, status = ? WHERE reservation_id = ?;";
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+
+            preparedStatement.setInt(1,reservation.getClientID());
+            preparedStatement.setString(2,reservation.getReservationDate().toString());
+            preparedStatement.setInt(3,reservation.getNumberOfPeople());
+            preparedStatement.setString(4,reservation.getStatus());
+            preparedStatement.setInt(5,reservationID);
+            preparedStatement.executeUpdate();
+
+
+            preparedStatement.close();
+            connection.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return "Reservation was edited successfully";
     }
 
 

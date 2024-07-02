@@ -47,5 +47,14 @@ public class ReservationService {
         return reservationRepository.changeReservationStatus(reservationId,"canceled");
     }
 
+    public String editReservationInformation(int reservationID,Reservation reservation){
+        if( reservation.getClientID() == 0 || reservation.getReservationDate() == null || reservation.getNumberOfPeople() == 0 || reservation.getStatus() == null || reservationID == 0)  return "Invalid Input";
+        return reservationRepository.editReservationInformation(reservationID,reservation);
+    }
+
+    public Reservation getReservationByID(int reservationID){
+        return reservationRepository.getReservationByID(reservationID);
+    }
+
 
 }
