@@ -36,4 +36,9 @@ public class ClientService {
 
         return clientRepository.editClientInformation(client_id,client);
     }
+
+    public List<Client> getAllClientsByName(String name) {
+        return clientRepository.getAllClientsByName(name);
+    }
+
 }

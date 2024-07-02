@@ -128,4 +128,38 @@ public class ClientRepository {
 
     }
 
+    public List<Client> getAllClientsByName(String name){
+
+        String sql = "SELECT * FROM reservation_database.clients WHERE name = ?;";
+        List<Client> clientList = new ArrayList<>();
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1,name);
+            ResultSet resultSet =  preparedStatement.executeQuery();
+
+
+            while (resultSet.next()){
+                Client client = new Client();
+                client.setClientID(resultSet.getInt("client_id"));
+                client.setName(resultSet.getString("name"));
+                client.setEmail(resultSet.getString("email"));
+                client.setPhone(resultSet.getString("phone"));
+
+                clientList.add(client);
+            }
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return clientList;
+
+    }
+
 }

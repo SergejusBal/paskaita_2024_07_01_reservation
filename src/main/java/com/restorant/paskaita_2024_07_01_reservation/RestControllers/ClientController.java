@@ -38,5 +38,12 @@ public class ClientController {
         return clientService.editClientInformation(id,client);
     }
 
+    @GetMapping("/clients/search")
+    public List<Client> getAllClientsByName(@RequestParam String name) {
+        return clientService.getAllClientsByName(name);
+    }
+
+
+
 
 }
