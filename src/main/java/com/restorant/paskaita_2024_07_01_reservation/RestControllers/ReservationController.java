@@ -60,10 +60,14 @@ public class ReservationController {
         return reservationService.editReservationInformation(id,reservation);
     }
 
-
     @DeleteMapping("/reservations/{reservationId}")
     public String cancelReservation(@PathVariable int reservationId){
         return reservationService.cancelReservation(reservationId);
     }
+    @GetMapping("/reservations/count")
+    public long getReservationCount() {
+        return reservationService.getReservationCount();
+    }
+
 
 }

@@ -41,4 +41,8 @@ public class ClientService {
         return clientRepository.getAllClientsByName(name);
     }
 
+    public long getClientCount() {
+        return clientRepository.getClientCount();
+    }
+
 }

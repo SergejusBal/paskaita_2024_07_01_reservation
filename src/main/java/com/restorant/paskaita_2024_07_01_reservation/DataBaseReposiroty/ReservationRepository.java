@@ -263,9 +263,30 @@ public class ReservationRepository {
         return "Reservation was edited successfully";
     }
 
+    public long getReservationCount() {
+        String sql = "SELECT COUNT(reservation_id) AS count FROM reservation_database.reservations;";
 
+        long numberOfReservations = 0L;
 
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet =  preparedStatement.executeQuery();
 
+            resultSet.next();
+            numberOfReservations = resultSet.getLong("count");
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return numberOfReservations;
+
+    }
 
 
     private LocalDateTime formatDateTime(String dateTime){

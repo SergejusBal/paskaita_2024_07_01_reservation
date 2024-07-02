@@ -43,6 +43,13 @@ public class ClientController {
         return clientService.getAllClientsByName(name);
     }
 
+    @GetMapping("/clients/count")
+    public long getClientCount() {
+        return clientService.getClientCount();
+    }
+
+
+
 
 
 

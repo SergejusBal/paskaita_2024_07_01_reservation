@@ -128,6 +128,32 @@ public class ClientRepository {
 
     }
 
+    public long getClientCount() {
+        String sql = "SELECT COUNT(client_id) AS count FROM reservation_database.clients;";
+
+        long numberOfClients = 0L;
+
+        try {
+            Connection connection = DriverManager.getConnection(url, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet =  preparedStatement.executeQuery();
+
+            resultSet.next();
+            numberOfClients = resultSet.getLong("count");
+
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
+
+        }catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return numberOfClients;
+    }
+
+
+
     public List<Client> getAllClientsByName(String name){
 
         String sql = "SELECT * FROM reservation_database.clients WHERE name = ?;";

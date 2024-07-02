@@ -56,5 +56,9 @@ public class ReservationService {
         return reservationRepository.getReservationByID(reservationID);
     }
 
+    public long getReservationCount() {
+        return reservationRepository.getReservationCount();
+    }
+
 
 }
