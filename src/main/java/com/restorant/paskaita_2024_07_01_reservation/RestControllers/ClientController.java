@@ -25,12 +25,5 @@ public class ClientController {
         return clientService.getAllClients();
     }
 
-    //PUT /clients/{id} - Atnaujinti esamo kliento informaciją pagal kliento ID.
-
-//    @PutMapping("/clients/{id}")
-//    public String editClientInformation(@PathVariable Integer ){
-//        return clientService.editClientInformation();
-//    }
-
 
 }

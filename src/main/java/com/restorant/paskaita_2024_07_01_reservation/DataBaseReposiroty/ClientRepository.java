@@ -31,6 +31,9 @@ public class ClientRepository {
 
             preparedStatement.executeUpdate();
 
+            preparedStatement.close();
+            connection.close();
+
         }catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -57,6 +60,10 @@ public class ClientRepository {
                 client.setPhone(resultSet.getString("phone"));
 
                 clientList.add(client);
+
+                resultSet.close();
+                preparedStatement.close();
+                connection.close();
             }
 
         }catch (SQLException e) {

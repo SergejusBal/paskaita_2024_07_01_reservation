@@ -62,9 +62,12 @@ public class ReservationRepository {
 
                 LocalDateTime localDateTime = formatDateTime(resultSet.getString("reservation_date"));
                 reservation.setReservationDate(localDateTime);
-
                 reservationList.add(reservation);
+
             }
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -95,6 +98,9 @@ public class ReservationRepository {
 
                 reservationList.add(reservation);
             }
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -126,6 +132,9 @@ public class ReservationRepository {
 
                 reservationList.add(reservation);
             }
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -145,6 +154,10 @@ public class ReservationRepository {
             preparedStatement.setString(1,status);
             preparedStatement.setInt(2,reservationId);
             preparedStatement.executeUpdate();
+
+
+            preparedStatement.close();
+            connection.close();
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
@@ -177,6 +190,9 @@ public class ReservationRepository {
                 reservationList.add(reservation);
 
             }
+            resultSet.close();
+            preparedStatement.close();
+            connection.close();
 
         }catch (SQLException e) {
             throw new RuntimeException(e);
